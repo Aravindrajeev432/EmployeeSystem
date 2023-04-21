@@ -1,0 +1,624 @@
+openapi: 3.0.3
+info:
+  title: 'Employee System '
+  version: 1.0.0
+  description: Zaigo info Tech task
+paths:
+  /account/api/token/:
+    post:
+      operationId: account_api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyTokenObtainPair'
+          description: ''
+  /account/api/token/refresh/:
+    post:
+      operationId: account_api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /account/delete-user:
+    delete:
+      operationId: account_delete_user_destroy
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /account/edit-user/{id}:
+    put:
+      operationId: account_edit_user_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EditUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EditUser'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditUser'
+          description: ''
+    patch:
+      operationId: account_edit_user_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEditUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEditUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEditUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditUser'
+          description: ''
+  /account/list-members:
+    get:
+      operationId: account_list_members_list
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListMembers'
+          description: ''
+  /account/profile/{id}:
+    get:
+      operationId: account_profile_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMembers'
+          description: ''
+  /account/register:
+    post:
+      operationId: account_register_create
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Account'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+  /account/tesview:
+    get:
+      operationId: account_tesview_retrieve
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /right/create-right:
+    get:
+      operationId: right_create_right_list
+      tags:
+      - right
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Right'
+          description: ''
+    post:
+      operationId: right_create_right_create
+      tags:
+      - right
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Right'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Right'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Right'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Right'
+          description: ''
+  /right/delete-right/{id}:
+    delete:
+      operationId: right_delete_right_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - right
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /right/edit-right/{id}:
+    put:
+      operationId: right_edit_right_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - right
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Right'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Right'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Right'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Right'
+          description: ''
+    patch:
+      operationId: right_edit_right_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - right
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRight'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRight'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRight'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Right'
+          description: ''
+  /role/create-role:
+    post:
+      operationId: role_create_role_create
+      tags:
+      - role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Role'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+  /role/delete-role/{id}:
+    delete:
+      operationId: role_delete_role_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - role
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /role/edit-role/{id}:
+    put:
+      operationId: role_edit_role_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Role'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+    patch:
+      operationId: role_edit_role_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+  /role/list-role:
+    get:
+      operationId: role_list_role_list
+      tags:
+      - role
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleView'
+          description: ''
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        role:
+          type: integer
+          nullable: true
+      required:
+      - email
+      - first_name
+      - last_name
+      - password
+    EditUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+        role:
+          type: integer
+          nullable: true
+      required:
+      - email
+      - first_name
+      - last_name
+    ListMembers:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        role:
+          $ref: '#/components/schemas/RoleView'
+      required:
+      - email
+      - first_name
+      - last_name
+      - role
+    MyTokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    PatchedEditUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+        role:
+          type: integer
+          nullable: true
+    PatchedRight:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        right:
+          type: string
+          maxLength: 150
+    PatchedRole:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        role:
+          type: string
+          maxLength: 150
+        rights:
+          type: array
+          items:
+            type: integer
+    Right:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        right:
+          type: string
+          maxLength: 150
+      required:
+      - id
+      - right
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        role:
+          type: string
+          maxLength: 150
+        rights:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+      - role
+    RoleView:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        rights:
+          type: array
+          items:
+            $ref: '#/components/schemas/Right'
+        role:
+          type: string
+          maxLength: 150
+      required:
+      - id
+      - rights
+      - role
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
